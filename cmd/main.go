@@ -9,7 +9,7 @@
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 
-// @host localhost:8080
+// @host https://blog-app-api-7t7q.onrender.com:8080
 // @BasePath /
 
 // @securityDefinitions.apikey BearerAuth

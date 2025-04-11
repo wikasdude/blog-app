@@ -1,0 +1,416 @@
+basePath: /
+definitions:
+  controller.LoginUserInput:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  controller.RegisterUserInput:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+      username:
+        type: string
+    type: object
+  model.CategoryRequest:
+    properties:
+      name:
+        example: Electronics
+        type: string
+    type: object
+  model.CreatePostRequest:
+    properties:
+      body:
+        example: hello
+        type: string
+      category_id:
+        example: 2
+        type: integer
+      description:
+        example: This post explains how to make microservices.
+        type: string
+      title:
+        example: How to Build a hi
+        type: string
+    type: object
+  model.Post:
+    properties:
+      body:
+        type: string
+      category_id:
+        type: integer
+      created_at:
+        type: string
+      description:
+        type: string
+      post_id:
+        type: integer
+      title:
+        type: string
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  model.UpdatePostRequest:
+    properties:
+      body:
+        example: hi
+        type: string
+      category_id:
+        example: 2
+        type: integer
+      description:
+        example: This post explains how to design and build a RESTful API using Golang.
+        type: string
+      title:
+        example: How to Build a
+        type: string
+    type: object
+  model.User:
+    properties:
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      role:
+        type: string
+      username:
+        type: string
+    type: object
+  utils.APIResponse:
+    properties:
+      data: {}
+      error: {}
+      message:
+        type: string
+      status:
+        type: boolean
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: vikas82393@gmail.com
+    name: Vikas
+  description: This is a simple blog backend using net/http in Go.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Blog API
+  version: "1.0"
+paths:
+  /api/blog-post:
+    post:
+      consumes:
+      - application/json
+      description: Create a new post by authenticated user
+      parameters:
+      - description: Post Data
+        in: body
+        name: post
+        required: true
+        schema:
+          $ref: '#/definitions/model.CreatePostRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Post'
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties: true
+            type: object
+      security:
+      - BearerAuth: []
+      summary: Create a blog post
+      tags:
+      - posts
+  /api/blog-post/{id}:
+    delete:
+      description: Allows the owner or an admin to delete a blog post
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete a blog post
+      tags:
+      - posts
+    get:
+      description: Fetch a single post by its ID
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Post'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Get a blog post by ID
+      tags:
+      - posts
+    patch:
+      consumes:
+      - application/json
+      description: Allows the owner or an admin to update a blog post
+      parameters:
+      - description: Post ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated Post JSON
+        in: body
+        name: post
+        required: true
+        schema:
+          $ref: '#/definitions/model.UpdatePostRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Post'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      security:
+      - BearerAuth: []
+      summary: Update an existing blog post
+      tags:
+      - posts
+  /api/blog-posts:
+    get:
+      description: Fetch all posts from the database
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.Post'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Get all blog posts
+      tags:
+      - posts
+  /api/categories:
+    post:
+      consumes:
+      - application/json
+      description: Takes a JSON body and creates a new category.
+      parameters:
+      - description: Category to create
+        in: body
+        name: category
+        required: true
+        schema:
+          $ref: '#/definitions/model.CategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/utils.APIResponse'
+      summary: Create a new category
+      tags:
+      - categories
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Logs in a user by verifying email and password, and returns a JWT
+        token upon successful login.
+      parameters:
+      - description: User login details
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/controller.LoginUserInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Login successful with JWT token
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Invalid request payload
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "401":
+          description: Invalid email or password
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Could not generate token
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Login a user and generate JWT token
+      tags:
+      - users
+  /users:
+    post:
+      consumes:
+      - application/json
+      description: Registers a new user with the provided name, email, and password.
+      parameters:
+      - description: User registration details
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/controller.RegisterUserInput'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.User'
+        "400":
+          description: Invalid email format
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Failed to create user
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Register a new user
+      tags:
+      - users
+  /users/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Fetches a user by their unique ID.
+      parameters:
+      - description: User ID
+        example: '"123"'
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'User found" example(model.User{"id": "123", "name": "John
+            Doe", "email": "johndoe@example.com"})'
+          schema:
+            $ref: '#/definitions/model.User'
+        "400":
+          description: 'Invalid ID" example(map[string]string{"error": "Invalid ID"})'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "404":
+          description: 'User not found" example(map[string]string{"error": "User not
+            found"})'
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Get user details by ID
+      tags:
+      - users
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

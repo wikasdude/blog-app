@@ -1,0 +1,27 @@
+environments:
+  local:
+    hostname: "vikass-macbook-air.local"
+    db:
+      host: localhost
+      port: 5432
+      user: bloguser
+      password: blogpass 
+      name: blogdb
+
+  dev:
+    hostname: "dev-machine"
+    db:
+      host: dev-db-host
+      port: 5432
+      user: devuser
+      password: devpass
+      name: blogdb_dev
+
+  prod:
+    hostname: "prod-server"
+    db:
+      host: prod-db-host
+      port: 5432
+      user: produser
+      password: prodpass
+      name: blogdb_prod

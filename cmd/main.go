@@ -8,7 +8,7 @@
 
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-
+// @schemes https
 // @host blog-app-api-7t7q.onrender.com:8080
 // @BasePath /
 

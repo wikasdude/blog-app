@@ -408,6 +408,8 @@ paths:
       summary: Get user details by ID
       tags:
       - users
+schemes:
+- https
 securityDefinitions:
   BearerAuth:
     in: header

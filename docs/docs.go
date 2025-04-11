@@ -637,7 +637,7 @@ var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "blog-app-api-7t7q.onrender.com:8080",
 	BasePath:         "/",
-	Schemes:          []string{},
+	Schemes:          []string{"https"},
 	Title:            "Blog API",
 	Description:      "This is a simple blog backend using net/http in Go.",
 	InfoInstanceName: "swagger",

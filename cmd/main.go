@@ -56,7 +56,7 @@ func main() {
 
 	router.InitRoutes(userController, postController, categoryController)
 	log.Println("Server running on :8080")
-	http.Handle("/swagger/", httpSwagger.WrapHandler)
+	http.Handle("/swagger/", enableCORS(httpSwagger.WrapHandler))
 	http.ListenAndServe(":8080", enableCORS(http.DefaultServeMux))
 }
 func enableCORS(next http.Handler) http.Handler {

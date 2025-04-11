@@ -95,7 +95,7 @@ definitions:
       status:
         type: boolean
     type: object
-host: localhost:8080
+host: https://blog-app-api-7t7q.onrender.com:8080
 info:
   contact:
     email: vikas82393@gmail.com

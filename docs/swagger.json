@@ -14,7 +14,7 @@
         },
         "version": "1.0"
     },
-    "host": "localhost:8080",
+    "host": "https://blog-app-api-7t7q.onrender.com:8080",
     "basePath": "/",
     "paths": {
         "/api/blog-post": {

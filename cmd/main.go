@@ -57,5 +57,16 @@ func main() {
 	router.InitRoutes(userController, postController, categoryController)
 	log.Println("Server running on :8080")
 	http.Handle("/swagger/", httpSwagger.WrapHandler)
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":8080", enableCORS(http.DefaultServeMux))
+}
+func enableCORS(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Headers", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS")
+		if r.Method == "OPTIONS" {
+			return
+		}
+		next.ServeHTTP(w, r)
+	})
 }
